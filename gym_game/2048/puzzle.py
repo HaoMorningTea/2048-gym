@@ -117,6 +117,6 @@ class GameGrid(Frame):
     def close_database(self):
         self.conn.close()
         
-game_grid = GameGrid()
-game_grid.close_database()
+#game_grid = GameGrid()
+#game_grid.close_database()
 
