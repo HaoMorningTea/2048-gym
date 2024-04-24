@@ -40,7 +40,6 @@ def simulate():
 
             # Draw games
             env.render()
-            env.render()
 
             # When episode is done, print reward
             if done or t >= MAX_TRY - 1:
