@@ -1,18 +1,12 @@
 
 ```
-2048-gym                               
-├─ 2048-python
-│  ├─ .gitignore
-│  ├─ .replit
-│  ├─ constants.py
-│  ├─ game_data.db
-│  ├─ img
-│  │  └─ screenshot.png
-│  ├─ LICENSE
-│  ├─ logic.py
-│  ├─ puzzle.py
-│  └─ README.md
+2048-gym
+├─ .gitignore
 ├─ gym_game
+│  ├─ 2048
+│  │  ├─ constants.py
+│  │  ├─ logic.py
+│  │  └─ puzzle.py
 │  ├─ envs
 │  │  ├─ custom_env.py
 │  │  ├─ pygame_2d.py
