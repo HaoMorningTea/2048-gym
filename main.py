@@ -53,8 +53,8 @@ def simulate():
 
 if __name__ == "__main__":
     env = gym.make("Pygame-v0")
-    MAX_EPISODES = 9999
-    MAX_TRY = 1000
+    MAX_EPISODES = 100
+    MAX_TRY = 100
     epsilon = 1
     epsilon_decay = 0.999
     learning_rate = 0.1

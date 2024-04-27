@@ -1,10 +1,12 @@
 import game.puzzle as puzzle
 import game.logic as logic
+import game.constants as c
+from tkinter import Frame, Label, CENTER
 
 class PY2048:
     def __init__(self):
         # Initialize board
-        self.gameGrid = puzzle.GameGrid()
+        self.gameGrid = puzzle.GameGrid(Frame)
 
     def action(self, action):
         # take one of four moves based on q table
@@ -32,7 +34,7 @@ class PY2048:
 
     def is_done(self):
         # board has no possible moves or reaches 2048
-        return self.gameGrid.game_state(self.gameGrid.matrix) != 'not over'
+        return logic.game_state(self.gameGrid.matrix) != 'not over'
 
     def observe(self):
         # return current state of board
