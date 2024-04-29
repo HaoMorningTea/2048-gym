@@ -2,8 +2,6 @@ import sys
 import numpy as np
 import math
 import random
-# Can I push?
-
 import gym
 import gym_game
 
@@ -54,7 +52,7 @@ def simulate():
 
 if __name__ == "__main__":
     env = gym.make("Pygame-v0")
-    MAX_EPISODES = 100
+    MAX_EPISODES = 1
     MAX_TRY = 100
     epsilon = 1
     epsilon_decay = 0.999

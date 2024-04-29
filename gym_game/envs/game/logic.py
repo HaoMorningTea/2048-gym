@@ -17,11 +17,11 @@ def set_conn(connection):
     global conn
     conn = connection
     
-def initialize_database():
+''' def initialize_database():
     # Initialize database and create table
     cursor = conn.cursor()
 
-    cursor.execute('''
+    cursor.execute(
         CREATE TABLE IF NOT EXISTS game_moves (
             move_id INTEGER PRIMARY KEY,
             board_state TEXT,
@@ -30,19 +30,11 @@ def initialize_database():
             game_time_id TIMESTAMP,
             move_number INTEGER
         )
-    ''')
+    )
 
     conn.commit()
     cursor.close()
-
-#######
-# Task 1a #
-#######
-
-# [Marking Scheme]
-# Points to note:
-# Matrix elements must be equal but not identical
-# 1 mark for creating the correct matrix
+'''
 
 def new_game(n):
     matrix = []
@@ -52,15 +44,6 @@ def new_game(n):
     matrix = add_two(matrix)
     return matrix
 
-###########
-# Task 1b #
-###########
-
-# [Marking Scheme]
-# Points to note:
-# Must ensure that it is created on a zero entry
-# 1 mark for creating the correct loop
-
 def add_two(mat):
     a = random.randint(0, len(mat)-1)
     b = random.randint(0, len(mat)-1)
@@ -69,18 +52,6 @@ def add_two(mat):
         b = random.randint(0, len(mat)-1)
     mat[a][b] = 2
     return mat
-
-###########
-# Task 1c #
-###########
-
-# [Marking Scheme]
-# Points to note:
-# Matrix elements must be equal but not identical
-# 0 marks for completely wrong solutions
-# 1 mark for getting only one condition correct
-# 2 marks for getting two of the three conditions
-# 3 marks for correct checking
 
 def game_state(mat):
     # check for win cell
@@ -108,16 +79,6 @@ def game_state(mat):
             return 'not over'
     return 'lose'
 
-###########
-# Task 2a #
-###########
-
-# [Marking Scheme]
-# Points to note:
-# 0 marks for completely incorrect solutions
-# 1 mark for solutions that show general understanding
-# 2 marks for correct solutions that work for all sizes of matrices
-
 def reverse(mat):
     new = []
     for i in range(len(mat)):
@@ -126,16 +87,6 @@ def reverse(mat):
             new[i].append(mat[i][len(mat[0])-j-1])
     return new
 
-###########
-# Task 2b #
-###########
-
-# [Marking Scheme]
-# Points to note:
-# 0 marks for completely incorrect solutions
-# 1 mark for solutions that show general understanding
-# 2 marks for correct solutions that work for all sizes of matrices
-
 def transpose(mat):
     new = []
     for i in range(len(mat[0])):
@@ -143,19 +94,6 @@ def transpose(mat):
         for j in range(len(mat)):
             new[i].append(mat[j][i])
     return new
-
-##########
-# Task 3 #
-##########
-
-# [Marking Scheme]
-# Points to note:
-# The way to do movement is compress -> merge -> compress again
-# Basically if they can solve one side, and use transpose and reverse correctly they should
-# be able to solve the entire thing just by flipping the matrix around
-# No idea how to grade this one at the moment. I have it pegged to 8 (which gives you like,
-# 2 per up/down/left/right?) But if you get one correct likely to get all correct so...
-# Check the down one. Reverse/transpose if ordered wrongly will give you wrong result.
 
 def cover_up(mat):
     new = []
@@ -203,13 +141,13 @@ def up(game):
     game = transpose(game)
     
     # Insert data into the database
-    cursor = conn.cursor()  # Create a cursor
-    cursor.execute('''
-        INSERT INTO game_moves (board_state, move_type, marginal_score_increase, game_time_id, move_number)
-        VALUES (?, ?, ?, ?, ?)
-    ''', (str(game), 'up', marignal_score_increase(oldscore, score), current_time, move))
-    conn.commit()
-    cursor.close()
+#    cursor = conn.cursor()  # Create a cursor
+#    cursor.execute('''
+#        INSERT INTO game_moves (board_state, move_type, marginal_score_increase, game_time_id, move_number)
+#        VALUES (?, ?, ?, ?, ?)
+#    ''', (str(game), 'up', marignal_score_increase(oldscore, score), current_time, move))
+#    conn.commit()
+#    cursor.close()
     move += 1
     return game, done
 
@@ -226,13 +164,13 @@ def down(game):
     game = transpose(reverse(game))
     
     # Insert data into the database
-    cursor = conn.cursor()  # Create a cursor
-    cursor.execute('''
-        INSERT INTO game_moves (board_state, move_type, marginal_score_increase, game_time_id, move_number)
-        VALUES (?, ?, ?, ?, ?)
-    ''', (str(game), 'down', marignal_score_increase(oldscore, score), current_time, move))
-    conn.commit()
-    cursor.close()
+#    cursor = conn.cursor()  # Create a cursor
+#    cursor.execute('''
+#        INSERT INTO game_moves (board_state, move_type, marginal_score_increase, game_time_id, move_number)
+#        VALUES (?, ?, ?, ?, ?)
+#    ''', (str(game), 'down', marignal_score_increase(oldscore, score), current_time, move))
+#    conn.commit()
+#    cursor.close()
     move += 1
     return game, done
 
@@ -248,13 +186,13 @@ def left(game):
     game = cover_up(game)[0]
     
     # Insert data into the database
-    cursor = conn.cursor()  # Create a cursor
-    cursor.execute('''
-        INSERT INTO game_moves (board_state, move_type, marginal_score_increase, game_time_id, move_number)
-        VALUES (?, ?, ?, ?, ?)
-    ''', (str(game), 'left', marignal_score_increase(oldscore, score), current_time, move))
-    conn.commit()
-    cursor.close()
+#    cursor = conn.cursor()  # Create a cursor
+#    cursor.execute('''
+#        INSERT INTO game_moves (board_state, move_type, marginal_score_increase, game_time_id, move_number)
+#        VALUES (?, ?, ?, ?, ?)
+#    ''', (str(game), 'left', marignal_score_increase(oldscore, score), current_time, move))
+#    conn.commit()
+#    cursor.close()
     move += 1
     return game, done
 
@@ -272,12 +210,12 @@ def right(game):
     game = reverse(game)
     
     # Insert data into the database
-    cursor = conn.cursor()  # Create a cursor
-    cursor.execute('''
-        INSERT INTO game_moves (board_state, move_type, marginal_score_increase, game_time_id, move_number)
-        VALUES (?, ?, ?, ?, ?)
-    ''', (str(game), 'right', marignal_score_increase(oldscore, score), current_time, move))
-    conn.commit()
-    cursor.close()
+#    cursor = conn.cursor()  # Create a cursor
+#    cursor.execute('''
+#        INSERT INTO game_moves (board_state, move_type, marginal_score_increase, game_time_id, move_number)
+#        VALUES (?, ?, ?, ?, ?)
+#    ''', (str(game), 'right', marignal_score_increase(oldscore, score), current_time, move))
+#    conn.commit()
+#    cursor.close()
     move += 1
     return game, done
