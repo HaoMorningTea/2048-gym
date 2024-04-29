@@ -17,6 +17,14 @@ class PY2048:
                 logic.left
             case "right":
                 logic.right
+    
+    def win(self):
+        for row in self.gameGrid.matrix:
+            for cell in row:
+                if cell >= 2048:
+                    return True
+        return False
+
 
     def evaluate(self):
         # calculate reward based on current state

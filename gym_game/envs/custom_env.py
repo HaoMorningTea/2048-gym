@@ -24,7 +24,8 @@ class CustomEnv(gym.Env):
         obs = self.pygame.observe()
         reward = self.pygame.evaluate()
         done = self.pygame.is_done()
-        return obs, reward, done, {}
+        win = self.pygame.win()
+        return obs, reward, done, win
 
     def render(self):
         self.pygame.view()
