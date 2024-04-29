@@ -11,7 +11,7 @@ class CustomEnv(gym.Env):
         self.pygame = PY2048()
         self.action_space = spaces.Discrete(4)
         self.action_mapping = {0: 'up', 1: 'down', 2: 'left', 3: 'right'}
-        self.observation_space = spaces.Box(low=0, high=max_tile_value, shape=(board_size, board_size), dtype=np.int)
+        self.observation_space = spaces.Box(low=0, high=max_tile_value, shape=(board_size, board_size), dtype=int)
 
     def reset(self):
         del self.pygame
@@ -23,8 +23,8 @@ class CustomEnv(gym.Env):
         self.pygame.action(action)
         obs = self.pygame.observe()
         reward = self.pygame.evaluate()
-        done = self.pygame.is_done()
-        return obs, reward, done, {}
+        terminated = self.pygame.is_over()
+        return obs, reward, terminated, False, {}
 
     def render(self):
         self.pygame.view()

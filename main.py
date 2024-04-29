@@ -25,7 +25,8 @@ def simulate():
                 action = np.argmax(q_table[state])
 
             # Do action and get result
-            next_state, reward, done, _ = env.step(action)
+            next_state, reward, terminated, truncated, _ = env.step(action)
+            done = terminated or truncated
             total_reward += reward
 
             # Get correspond q value from state, action pair
@@ -59,6 +60,8 @@ if __name__ == "__main__":
     epsilon_decay = 0.999
     learning_rate = 0.1
     gamma = 0.6
-    num_box = tuple((env.observation_space.high + np.ones(env.observation_space.shape)).astype(int))
-    q_table = np.zeros(num_box + (env.action_space.n,))
+    # num_box = tuple((env.observation_space.high + np.ones(env.observation_space.shape)).astype(int))
+    # q_table = np.zeros(num_box + (env.action_space.n,))
+    observation_shape_flat = np.prod(env.observation_space.shape)
+    q_table = np.zeros((observation_shape_flat, env.action_space.n))
     simulate()

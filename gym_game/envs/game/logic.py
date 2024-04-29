@@ -1,5 +1,5 @@
 import random
-import constants as c
+from . import constants as c
 import sqlite3
 import datetime
 

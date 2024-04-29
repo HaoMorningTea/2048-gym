@@ -1,7 +1,7 @@
 from tkinter import Frame, Label, CENTER
 import random
-import logic
-import constants as c
+from . import logic
+from . import constants as c
 import sqlite3
 
 def gen():

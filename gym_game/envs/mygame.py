@@ -1,24 +1,24 @@
-import game.puzzle as puzzle
-import game.logic as logic
-import game.constants as c
+from .game import puzzle as puzzle
+from .game import logic as logic
+from .game import constants as c
 from tkinter import Frame, Label, CENTER
 
 class PY2048:
     def __init__(self):
         # Initialize board
-        self.gameGrid = puzzle.GameGrid(Frame)
+        self.matrix = logic.new_game(c.GRID_LEN)
 
     def action(self, action):
         # take one of four moves based on q table
         match action:
             case "up":
-                logic.up
+                logic.up(self.matrix)
             case "down":
-                logic.down
+                logic.down(self.matrix)
             case "left":
-                logic.left
+                logic.left(self.matrix)
             case "right":
-                logic.right
+                logic.right(self.matrix)
 
     def evaluate(self):
         # calculate reward based on current state
@@ -32,7 +32,7 @@ class PY2048:
                     max_block = cell
         return 10 * max_block + total_sum
 
-    def is_done(self):
+    def is_over(self):
         # board has no possible moves or reaches 2048
         return logic.game_state(self.gameGrid.matrix) != 'not over'
 
