@@ -9,15 +9,17 @@ class PY2048:
 
     def action(self, action):
         # take one of four moves based on q table
+        # print("action: ", action)
         match action:
-            case "up":
+            case 0:
                 self.matrix, done = logic.up(self.matrix)
-            case "down":
+            case 1:
                 self.matrix, done = logic.down(self.matrix)
-            case "left":
+            case 2:
                 self.matrix, done = logic.left(self.matrix)
-            case "right":
+            case 3:
                 self.matrix, done = logic.right(self.matrix)
+        self.matrix = logic.add_two(self.matrix)
 
     def evaluate(self):
         # calculate reward based on current state

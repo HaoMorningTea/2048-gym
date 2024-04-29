@@ -29,6 +29,8 @@ def simulate():
 
             # Get correspond q value from state, action pair
             q_value = q_table[state][action]
+            print("newstate: ", next_state)
+            print("q[newstate]: ", q_table[next_state])
             best_q = np.max(q_table[next_state])
 
             # Q(state, action) <- (1 - a)Q(state, action) + a(reward + rmaxQ(next state, all actions))
@@ -53,13 +55,16 @@ def simulate():
 if __name__ == "__main__":
     env = gym.make("Pygame-v0")
     MAX_EPISODES = 1
-    MAX_TRY = 100
+    MAX_TRY = 10000
     epsilon = 1
     epsilon_decay = 0.999
     learning_rate = 0.1
     gamma = 0.6
     # num_box = tuple((env.observation_space.high + np.ones(env.observation_space.shape)).astype(int))
     # q_table = np.zeros(num_box + (env.action_space.n,))
-    observation_shape_flat = np.prod(env.observation_space.shape)
-    q_table = np.zeros((observation_shape_flat, env.action_space.n))
+    # observation_shape_flat = np.prod(env.observation_space.shape)
+    num_actions = 4  # Number of actions
+    observation_space_length = 16
+    q_table = np.zeros((observation_space_length * num_actions * 1000))
+    # q_table = np.zeros((observation_shape_flat, env.action_space.n))
     simulate()
