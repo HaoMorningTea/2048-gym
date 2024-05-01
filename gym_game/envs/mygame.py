@@ -19,6 +19,7 @@ class PY2048:
                 self.matrix, done = logic.left(self.matrix)
             case 3:
                 self.matrix, done = logic.right(self.matrix)
+        
         self.matrix = logic.add_two(self.matrix)
 
     def evaluate(self):

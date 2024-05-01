@@ -44,13 +44,22 @@ def new_game(n):
     matrix = add_two(matrix)
     return matrix
 
+def has_empty(mat):
+    for i in range(len(mat)):
+        for j in range(len(mat[0])):
+            if mat[i][j] == 0:
+                return True
+    return False
+
 def add_two(mat):
-    a = random.randint(0, len(mat)-1)
-    b = random.randint(0, len(mat)-1)
-    while mat[a][b] != 0:
+    if has_empty(mat):       
         a = random.randint(0, len(mat)-1)
         b = random.randint(0, len(mat)-1)
-    mat[a][b] = 2
+        while mat[a][b] != 0:
+            a = random.randint(0, len(mat)-1)
+            b = random.randint(0, len(mat)-1)
+        mat[a][b] = 2
+        return mat
     return mat
 
 def game_state(mat):

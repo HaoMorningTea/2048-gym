@@ -17,20 +17,24 @@ def simulate():
         for t in range(MAX_TRY):
 
             # In the beginning, do random action to learn
-            if random.uniform(0, 1) < epsilon:
+            if random.uniform(0, 1) < epsilon:   
                 action = env.action_space.sample()
+                next_state, reward, terminated, truncated, _ = env.step(action) 
+                if(next_state == state):
+                    print("Adriel is a dumb")
+                    action = env.action_space.sample()
+                    next_state, reward, terminated, truncated, _ = env.step(action)                 
             else:
                 action = np.argmax(q_table[state])
 
             # Do action and get result
-            next_state, reward, terminated, truncated, _ = env.step(action)
             done = terminated or truncated
             total_reward += reward
 
             # Get correspond q value from state, action pair
             q_value = q_table[state][action]
-            print("newstate: ", next_state)
-            print("q[newstate]: ", q_table[next_state])
+            # print("newstate: ", next_state)
+            # print("q[newstate]: ", q_table[next_state])
             best_q = np.max(q_table[next_state])
 
             # Q(state, action) <- (1 - a)Q(state, action) + a(reward + rmaxQ(next state, all actions))
