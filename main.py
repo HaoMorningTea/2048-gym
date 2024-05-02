@@ -9,12 +9,25 @@ import pickle
 def save_q_table(q_table, filename):
     with open(filename, "wb") as f:
         pickle.dump(q_table, f)
-        
+
 def load_q_table(filename):
     with open(filename, "rb") as f:
         q_table = pickle.load(f)
     return q_table
+def reader(filename):
+    with open(filename, 'r') as file:
+        lines = file.readlines()
+    q_table = {}
+    # iterate through each line and split key-value pairs
+    for line in lines:
+        key, value = line.strip().split(':')
+        q_table[key.strip()] = value.strip()
+    return q_table
 
+def writer(filename,q_table):
+    with open(filename, 'w') as f:
+        for key, value in q_table.items():
+            f.write('%s:%s\n' % (key, value))
 def tuplify(w):
     a = tuple(w[0])
     b = tuple(w[1])
@@ -23,8 +36,8 @@ def tuplify(w):
     f = (a,b,c,d)
     return f
 
-def simulate():
-    global epsilon, epsilon_decay, q_table
+def simulate(q_table):
+    global epsilon, epsilon_decay
     for episode in range(MAX_EPISODES):
 
         # Init environment
@@ -35,12 +48,12 @@ def simulate():
         for t in range(MAX_TRY):
 
             # In the beginning, do random action to learn
-            if random.uniform(0, 1) < epsilon:   
+            if random.uniform(0, 1) < epsilon:
                 action = env.action_space.sample()
-                next_state, reward, terminated, truncated, _ = env.step(action) 
+                next_state, reward, terminated, truncated, _ = env.step(action)
                 if(next_state == state):
                     action = env.action_space.sample()
-                    next_state, reward, terminated, truncated, _ = env.step(action)                 
+                    next_state, reward, terminated, truncated, _ = env.step(action)
             else:
                 # Initialize action with a default value
                 best_action = None
@@ -84,21 +97,20 @@ def simulate():
         # exploring rate decay
         if epsilon >= 0.005:
             epsilon *= epsilon_decay
-
+    return q_table
 
 if __name__ == "__main__":
     env = gym.make("Pygame-v0")
-    MAX_EPISODES = 1
-    MAX_TRY = 10000
+    MAX_EPISODES = 1000
+    MAX_TRY = 100000
     epsilon = 1
-    epsilon_decay = 0.999 #decay slow because observation space is sparse
+    epsilon_decay = 0.999
     learning_rate = 0.1
     gamma = 0.6
     num_actions = 4  # Number of actions
     observation_space_length = 16
     # q_table = np.zeros((observation_space_length, num_actions))
     # q_table = load_q_table("q_table.pkl")
-    q_table = {}
-    simulate()
-
-
+    q_table = reader('q_table5.txt')
+    simulate(q_table)
+    writer("q_table5.txt",q_table)
