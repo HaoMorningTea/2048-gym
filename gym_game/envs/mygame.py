@@ -43,5 +43,6 @@ class PY2048:
         return self.matrix
 
     def view(self):
-        # render the board
-        print(self.matrix)
+        self.matrix = self.matrix
+        #render the board
+        #print(self.matrix)

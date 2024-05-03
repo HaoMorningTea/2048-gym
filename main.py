@@ -5,6 +5,7 @@ import random
 import gym
 import gym_game
 import pickle
+import time
 
 def save_q_table(q_table, filename):
     with open(filename, "wb") as f:
@@ -76,7 +77,7 @@ def simulate(q_table):
             # Get correspond q value from state, action pair
             q_value = q_table.get((tuplify(state), action), 0.0)
             # print("newstate: ", next_state)
-            print("q_value: ", q_table.get((tuplify(state), action), 0.0))
+            #print("q_value: ", q_table.get((tuplify(state), action), 0.0))
             best_q = max(q_table.get((tuplify(next_state), a), 0.0) for a in range(env.action_space.n))
 
             # Q(state, action) <- (1 - a)Q(state, action) + a(reward + rmaxQ(next state, all actions))
@@ -90,8 +91,8 @@ def simulate(q_table):
 
             # When episode is done, print reward
             if done or t >= MAX_TRY - 1:
-                print("Episode %d finished after %i time steps with total reward = %f." % (episode, t, total_reward))
-                save_q_table(q_table, 'q_table.pkl')
+                #print("Episode %d finished after %i time steps with total reward = %f." % (episode, t, total_reward))
+                #save_q_table(q_table, 'q_table.pkl')
                 break
 
         # exploring rate decay
@@ -101,7 +102,7 @@ def simulate(q_table):
 
 if __name__ == "__main__":
     env = gym.make("Pygame-v0")
-    MAX_EPISODES = 1000
+    MAX_EPISODES = 100000
     MAX_TRY = 100000
     epsilon = 1
     epsilon_decay = 0.999
@@ -112,5 +113,8 @@ if __name__ == "__main__":
     # q_table = np.zeros((observation_space_length, num_actions))
     # q_table = load_q_table("q_table.pkl")
     q_table = reader('q_table5.txt')
+    start = time.time()
     simulate(q_table)
+    end = time.time()
+    print("time"+str(end-start))
     writer("q_table5.txt",q_table)

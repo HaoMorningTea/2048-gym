@@ -131,7 +131,7 @@ def merge(mat, done):
                 score += mat[i][j]
                 mat[i][j+1] = 0
                 done = True
-    print("Score: ", score)
+    #print("Score: ", score)
     return mat, done
 
 def marignal_score_increase(oldscore, score):
@@ -140,7 +140,7 @@ def marignal_score_increase(oldscore, score):
 def up(game):
     global conn
     global move
-    print("up")
+    #print("up")
     oldscore = score
     # return matrix after shifting up
     game = transpose(game)
@@ -163,7 +163,7 @@ def up(game):
 def down(game):
     global conn
     global move
-    print("down")
+    #print("down")
     oldscore = score
     # return matrix after shifting down
     game = reverse(transpose(game))
@@ -187,7 +187,7 @@ def left(game):
     # global score
     global conn
     global move
-    print("left")
+#    print("left")
     oldscore = score
     # return matrix after shifting left
     game, done = cover_up(game)
@@ -209,7 +209,7 @@ def right(game):
     # global score
     global conn
     global move
-    print("right")
+#    print("right")
     oldscore = score
     # return matrix after shifting right
     game = reverse(game)
