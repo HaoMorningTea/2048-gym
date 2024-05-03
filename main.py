@@ -103,18 +103,26 @@ def simulate(q_table):
 if __name__ == "__main__":
     env = gym.make("Pygame-v0")
     MAX_EPISODES = 100000
-    MAX_TRY = 100000
-    epsilon = 1
-    epsilon_decay = 0.999
-    learning_rate = 0.1
     gamma = 0.6
     num_actions = 4  # Number of actions
     observation_space_length = 16
+    MAX_TRY = 100000
+    epsilon = 1
+    learning_rate = 0.1
+    epsilon_decay = 1
+    for i in range(100):
+        q_table = reader('q_table5.txt')
+        start = time.time()
+        q_table = simulate(q_table)
+        end = time.time()
+        writer("q_table5.txt", q_table)
+        print("time" + str(end - start))
+        learning_rate+=.009
+        epsilon *= .9773
     # q_table = np.zeros((observation_space_length, num_actions))
     # q_table = load_q_table("q_table.pkl")
-    q_table = reader('q_table5.txt')
-    start = time.time()
-    simulate(q_table)
-    end = time.time()
-    print("time"+str(end-start))
-    writer("q_table5.txt",q_table)
+
+
+
+
+
