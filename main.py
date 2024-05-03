@@ -37,7 +37,7 @@ def tuplify(w):
     f = (a,b,c,d)
     return f
 
-def simulate(q_table):
+def simulate(q_table,w):
     global epsilon, epsilon_decay
     for episode in range(MAX_EPISODES):
 
@@ -69,6 +69,7 @@ def simulate(q_table):
 
                 # Assign the best action
                 action = best_action
+                next_state, reward, terminated, truncated, _ = env.step(action)
 
             # Do action and get result
             done = terminated or truncated
@@ -91,6 +92,16 @@ def simulate(q_table):
 
             # When episode is done, print reward
             if done or t >= MAX_TRY - 1:
+                max_block = 0
+                for row in state:
+                    for cell in row:
+                        if cell > max_block:
+                            max_block = cell
+                if max_block == 2048:
+                    t = 1
+                else:
+                    t=0
+                w.append([t,max_block])
                 #print("Episode %d finished after %i time steps with total reward = %f." % (episode, t, total_reward))
                 #save_q_table(q_table, 'q_table.pkl')
                 break
@@ -98,7 +109,7 @@ def simulate(q_table):
         # exploring rate decay
         if epsilon >= 0.005:
             epsilon *= epsilon_decay
-    return q_table
+    return w, q_table
 
 if __name__ == "__main__":
     env = gym.make("Pygame-v0")
@@ -110,15 +121,19 @@ if __name__ == "__main__":
     epsilon = 1
     learning_rate = 0.1
     epsilon_decay = 1
+    w = []
     for i in range(100):
         q_table = reader('q_table5.txt')
         start = time.time()
-        q_table = simulate(q_table)
+        w, q_table = simulate(q_table,w)
         end = time.time()
         writer("q_table5.txt", q_table)
         print("time" + str(end - start))
         learning_rate+=.009
         epsilon *= .9773
+    with open("learn.txt", "w") as txt_file:
+        for line in w:
+            txt_file.write(str(line)+"\n")
     # q_table = np.zeros((observation_space_length, num_actions))
     # q_table = load_q_table("q_table.pkl")
 
